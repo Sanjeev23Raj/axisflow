@@ -1,0 +1,121 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                    String         @id @default(uuid())
+  email                 String         @unique
+  name                  String
+  password              String         // Hashed password
+  role                  String         // "MANAGER" | "TEAM_LEADER" | "TEAM_MEMBER"
+  createdAt             DateTime       @default(now())
+  sessions              UserSession[]
+  sentNotifications     Notification[] @relation("SentNotifications")
+  receivedNotifications Notification[] @relation("ReceivedNotifications")
+}
+
+model UserSession {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId String   @unique
+  role      String
+  loginAt   DateTime @default(now())
+  expiresAt DateTime
+  isActive  Boolean  @default(true)
+}
+
+model Project {
+  id            String         @id @default(uuid())
+  title         String
+  description   String?
+  status        String         // "PLANNING" | "ACTIVE" | "COMPLETED" | "ON_HOLD"
+  createdAt     DateTime       @default(now())
+  deadline      DateTime?
+  userStories   UserStory[]
+  sprintReports SprintReport[]
+}
+
+model UserStory {
+  id             String   @id @default(uuid())
+  title          String
+  description    String?
+  priority       String   // "LOW" | "MEDIUM" | "HIGH" | "URGENT"
+  status         String   // "BACKLOG" | "TODO" | "IN_PROGRESS" | "BLOCKED" | "COMPLETED"
+  assignedLeader String?  // Team Leader email or name
+  deadline       DateTime?
+  projectId      String
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks          Task[]
+}
+
+model Task {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  assignedTo  String?   // User Name or Email
+  priority    String    // "LOW" | "MEDIUM" | "HIGH" | "URGENT"
+  status      String    // "TODO" | "IN_PROGRESS" | "BLOCKED" | "COMPLETED"
+  deadline    DateTime
+  storyId     String
+  userStory   UserStory @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  content   String
+  author    String   // User Name or Email
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  senderId    String?
+  sender      User?    @relation("SentNotifications", fields: [senderId], references: [id], onDelete: SetNull)
+  receiverId  String
+  receiver    User     @relation("ReceivedNotifications", fields: [receiverId], references: [id], onDelete: Cascade)
+  title       String
+  message     String
+  type        String   // "INFO" | "WARNING" | "SUCCESS" | "ALERT"
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model CapacityRecommendation {
+  id          String   @id @default(uuid())
+  projectId   String
+  taskId      String
+  taskTitle   String
+  fromDev     String
+  toDev       String
+  reason      String
+  status      String   // "PENDING" | "APPROVED" | "REJECTED"
+  createdAt   DateTime @default(now())
+}
+
+model ActivityLog {
+  id          String   @id @default(uuid())
+  action      String   // "PROJECT_CREATED" | "STORY_ADDED" | "TASK_ASSIGNED" | "PRIORITY_CHANGED" | "STATUS_UPDATED" | "REPORT_GENERATED"
+  performedBy String   // User Name / Email
+  entityType  String   // "PROJECT" | "USER_STORY" | "TASK" | "SPRINT_REPORT"
+  entityId    String
+  timestamp   DateTime @default(now())
+}
+
+model SprintReport {
+  id          String   @id @default(uuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  healthScore Int      // 0 - 100
+  riskLevel   String   // "HEALTHY" | "AT_RISK" | "CRITICAL"
+  summary     String   // JSON string storing issues list and recommendations
+  generatedAt DateTime @default(now())
+}
