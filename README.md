@@ -4,6 +4,9 @@ AxisFlow is a production-grade, role-based, full-stack agile planning dashboard 
 
 ---
 
+<img width="1478" height="873" alt="image" src="https://github.com/user-attachments/assets/88463685-fa31-4a95-8cdc-2bfa691f1a00" />
+
+
 ## 🚀 Tech Stack
 
 ### Frontend
