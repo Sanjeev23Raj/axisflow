@@ -236,12 +236,12 @@ export default function StoryBoard() {
   const membersList = usersList.filter(u => u.role === 'TEAM_MEMBER');
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden bg-slate-50">
+    <div className="flex-1 flex flex-col overflow-hidden comic-bg">
       {/* Header bar */}
       <div className="bg-white border-b border-slate-200 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-800">Sprint Board</h1>
-          <p className="text-slate-500 text-xs">Manage User Stories and Tasks</p>
+          <h1 className="text-xl font-bold text-slate-800">Axis Board</h1>
+          <p className="text-slate-500 text-xs">Manage Axis Stories and Tasks</p>
         </div>
 
         {/* View selection controls */}
@@ -263,7 +263,7 @@ export default function StoryBoard() {
               }`}
             >
               <CheckSquare className="h-3.5 w-3.5" />
-              <span>Tasks</span>
+              <span>Axis Tasks</span>
             </button>
           </div>
 

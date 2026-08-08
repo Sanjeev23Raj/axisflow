@@ -54,39 +54,40 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 px-4">
-      <div className="max-w-md w-full space-y-6 bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700">
+    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 relative overflow-hidden spidey-web-panel">
+      {/* Spider-Man style floating card */}
+      <div className="max-w-md w-full space-y-6 bg-white p-8 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] transform -rotate-1 hover:rotate-0 transition-transform duration-200">
         <div className="flex flex-col items-center justify-center">
-          <div className="p-3 bg-blue-600/10 text-blue-500 rounded-2xl border border-blue-500/20 mb-3 animate-pulse">
+          <div className="p-3 bg-spidey-red text-white border-4 border-black shadow-[3px_3px_0px_#000] mb-3 animate-bounce">
             <Activity className="h-9 w-9" />
           </div>
-          <h2 className="text-2xl font-extrabold text-white tracking-tight">SprintPulse</h2>
-          <p className="mt-1 text-sm text-slate-400">Smart Agile Project Management Platform</p>
+          <h2 className="text-4xl font-black text-white tracking-wider spidey-title">AxisFlow</h2>
+          <p className="mt-1 text-xs font-black text-black uppercase tracking-widest bg-spidey-yellow px-2 py-0.5 border-2 border-black">Smart Agile Metrics</p>
         </div>
 
         {expired && (
-          <div className="flex items-center gap-3 p-4 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20 text-sm">
-            <ShieldAlert className="h-5 w-5 shrink-0" />
-            <span>Your session expired due to inactivity. Please log in again.</span>
+          <div className="flex items-center gap-3 p-4 bg-spidey-yellow text-black border-3 border-black shadow-[3px_3px_0px_#000] text-sm font-bold">
+            <ShieldAlert className="h-5 w-5 shrink-0 text-spidey-red" />
+            <span>Session expired! Suit up and log in again!</span>
           </div>
         )}
 
         {registered && (
-          <div className="flex items-center gap-3 p-4 bg-green-500/10 text-green-400 rounded-xl border border-green-500/20 text-sm">
-            <CheckCircle2 className="h-5 w-5 shrink-0" />
-            <span>Registration successful! Please sign in with your credentials.</span>
+          <div className="flex items-center gap-3 p-4 bg-green-200 text-black border-3 border-black shadow-[3px_3px_0px_#000] text-sm font-bold">
+            <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600" />
+            <span>Success! Account created. Time to swing in!</span>
           </div>
         )}
 
         {errorMessage && (
-          <div className="p-4 bg-red-500/10 text-red-400 rounded-xl border border-red-500/20 text-sm">
-            {errorMessage}
+          <div className="p-4 bg-red-100 text-black border-3 border-black shadow-[3px_3px_0px_#000] text-sm font-bold">
+            <span className="text-spidey-red uppercase font-black mr-1">Alert:</span> {errorMessage}
           </div>
         )}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="email-address" className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+            <label htmlFor="email-address" className="text-xs font-black text-black uppercase tracking-wider block mb-1">
               Email Address
             </label>
             <input
@@ -94,14 +95,14 @@ export default function Login() {
               name="email"
               type="email"
               required
-              className="appearance-none rounded-xl relative block w-full px-4 py-2.5 border border-slate-700 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-all"
-              placeholder="manager@sprintpulse.com"
+              className="appearance-none relative block w-full px-4 py-2.5 border-3 border-black bg-white text-black placeholder-slate-400 focus:outline-none focus:bg-spidey-yellow/10 text-sm font-bold shadow-[3px_3px_0px_#000] focus:shadow-[4px_4px_0px_#ffd166]"
+              placeholder="manager@axisflow.io"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
-            <label htmlFor="password" className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+            <label htmlFor="password" className="text-xs font-black text-black uppercase tracking-wider block mb-1">
               Password
             </label>
             <input
@@ -109,7 +110,7 @@ export default function Login() {
               name="password"
               type="password"
               required
-              className="appearance-none rounded-xl relative block w-full px-4 py-2.5 border border-slate-700 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-all"
+              className="appearance-none relative block w-full px-4 py-2.5 border-3 border-black bg-white text-black placeholder-slate-400 focus:outline-none focus:bg-spidey-yellow/10 text-sm font-bold shadow-[3px_3px_0px_#000] focus:shadow-[4px_4px_0px_#ffd166]"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -120,16 +121,16 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-blue-500 disabled:opacity-50 transition-colors cursor-pointer"
+              className="group relative w-full flex justify-center py-3 px-4 border-3 border-black text-sm font-black uppercase tracking-widest text-white bg-spidey-red hover:bg-red-600 shadow-[4px_4px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 transition-all cursor-pointer"
             >
-              {loading ? 'Logging in...' : 'Sign In'}
+              {loading ? 'SWINGING IN...' : 'LOG IN'}
             </button>
           </div>
         </form>
 
-        <div className="text-center">
-          <Link to="/register" className="text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors">
-            Need an account? Register here
+        <div className="text-center pt-2">
+          <Link to="/register" className="text-xs font-black text-spidey-blue hover:text-blue-700 uppercase tracking-wide underline">
+            Need an account? Sign up here!
           </Link>
         </div>
       </div>

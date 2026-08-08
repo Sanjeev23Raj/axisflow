@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useProjects } from '../context/ProjectContext';
 import { useAuth } from '../context/AuthContext';
-import { projectService } from '../services/api';
+import api, { projectService } from '../services/api';
 import { FolderKanban, Plus, Calendar, Settings2, Trash2 } from 'lucide-react';
 
 export default function Projects() {
-  const { projects, refreshProjects, changeActiveProject } = useProjects();
+  const { projects, refreshProjects, changeActiveProject, activeProjectId, activeProject } = useProjects();
   const { user } = useAuth();
+  
+  const [projectTasks, setProjectTasks] = useState([]);
+  const [showCompleted, setShowCompleted] = useState(false);
   
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState('');
@@ -69,8 +72,25 @@ export default function Projects() {
     }
   };
 
+  React.useEffect(() => {
+    const loadTasks = async () => {
+      if (!activeProjectId) return;
+      try {
+        const stories = await api.get(`/stories?projectId=${activeProjectId}`);
+        const allTasks = [];
+        for (const s of stories.data) {
+          const tasksRes = await api.get(`/tasks?storyId=${s.id}`);
+          allTasks.push(...tasksRes.data.map(t => ({ ...t, storyTitle: s.title })));
+        }
+        setProjectTasks(allTasks);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    loadTasks();
+  }, [activeProjectId]);
   return (
-    <div className="flex-1 overflow-y-auto p-8 space-y-6">
+    <div className="flex-1 overflow-y-auto p-8 space-y-6 comic-bg">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-slate-800">Projects</h1>
@@ -140,6 +160,66 @@ export default function Projects() {
           </div>
         ))}
       </div>
+
+      {/* Active Tasks View */}
+      {activeProjectId && (
+        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs mt-8">
+          <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <span className="text-xl font-black text-black">Axis Tasks List</span>
+            </h3>
+            
+            <label className="flex items-center gap-2 text-xs font-semibold text-slate-600 cursor-pointer">
+              <input
+                type="checkbox"
+                className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 h-4 w-4"
+                checked={showCompleted}
+                onChange={(e) => setShowCompleted(e.target.checked)}
+              />
+              <span>Show Completed Tasks</span>
+            </label>
+          </div>
+
+          <div className="divide-y divide-slate-100 max-h-96 overflow-y-auto">
+            {projectTasks.filter(t => showCompleted ? true : t.status !== 'COMPLETED').length > 0 ? (
+              projectTasks.filter(t => showCompleted ? true : t.status !== 'COMPLETED').map((t) => (
+                <div key={t.id} className="py-3 flex items-center justify-between gap-4">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-bold text-slate-800 truncate">{t.title}</p>
+                    <p className="text-xs text-slate-400 mt-0.5 truncate">Story: {t.storyTitle}</p>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                      t.priority === 'URGENT' ? 'bg-red-50 text-red-600 border border-red-100' :
+                      t.priority === 'HIGH' ? 'bg-orange-50 text-orange-600 border border-orange-100' :
+                      'bg-blue-50 text-blue-600 border border-blue-100'
+                    }`}>
+                      {t.priority}
+                    </span>
+                    <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
+                      t.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+                      t.status === 'BLOCKED' ? 'bg-red-100 text-red-800' :
+                      t.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-800' :
+                      'bg-slate-100 text-slate-600'
+                    }`}>
+                      {t.status}
+                    </span>
+                    {t.assignedTo && (
+                      <span className="text-[10px] text-slate-500 font-medium bg-slate-100 px-2 py-0.5 rounded-md">
+                        {t.assignedTo}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-slate-400 text-center py-6 text-sm font-medium">
+                No active tasks found in this project.
+              </p>
+            )}
+          </div>
+        </div>
+      )}
 
       {showModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">

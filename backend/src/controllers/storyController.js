@@ -24,17 +24,17 @@ const getStoriesByProject = async (req, res) => {
       // Team Members only see stories that have tasks assigned to them, OR stories assigned to their team leader
       // Bob Leader's team: Charlie, Diana, Fiona, George
       // Ethan Leader's team: Hannah, Ian, Julia, Kevin
-      const bobTeam = ['Charlie Member', 'Diana Member', 'Fiona Member', 'George Member', 'bob.leader@sprintpulse.com', 'Bob Leader'];
-      const ethanTeam = ['Hannah Member', 'Ian Member', 'Julia Member', 'Kevin Member', 'ethan.leader@sprintpulse.com', 'Ethan Leader'];
+      const bobTeam = ['Charlie Member', 'Diana Member', 'Fiona Member', 'George Member', 'bob.leader@axisflow.io', 'Bob Leader'];
+      const ethanTeam = ['Hannah Member', 'Ian Member', 'Julia Member', 'Kevin Member', 'ethan.leader@axisflow.io', 'Ethan Leader'];
 
       const userIdentifier = req.user.name || req.user.email;
       const isBobTeam = bobTeam.some(name => userIdentifier.toLowerCase().includes(name.toLowerCase().replace(' ', '.')) || userIdentifier.includes(name));
       const isEthanTeam = ethanTeam.some(name => userIdentifier.toLowerCase().includes(name.toLowerCase().replace(' ', '.')) || userIdentifier.includes(name));
 
       if (isBobTeam) {
-        stories = stories.filter(s => s.assignedLeader === 'Bob Leader' || s.assignedLeader === 'bob.leader@sprintpulse.com');
+        stories = stories.filter(s => s.assignedLeader === 'Bob Leader' || s.assignedLeader === 'bob.leader@axisflow.io');
       } else if (isEthanTeam) {
-        stories = stories.filter(s => s.assignedLeader === 'Ethan Leader' || s.assignedLeader === 'ethan.leader@sprintpulse.com');
+        stories = stories.filter(s => s.assignedLeader === 'Ethan Leader' || s.assignedLeader === 'ethan.leader@axisflow.io');
       } else {
         // If not in the preseeded list, only show stories that host at least one task assigned to them
         stories = stories.filter(s => s.tasks.some(t => t.assignedTo === req.user.name || t.assignedTo === req.user.email));

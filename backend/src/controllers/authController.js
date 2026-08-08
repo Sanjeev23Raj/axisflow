@@ -11,10 +11,10 @@ const register = async (req, res) => {
     return res.status(400).json({ message: 'All fields (name, email, password, role) are required.' });
   }
 
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // Validate email format and domain restrict to axisflow.io
+  const emailRegex = /^[^\s@]+@axisflow\.io$/i;
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: 'Invalid email format.' });
+    return res.status(400).json({ message: 'Registration is restricted to the axisflow.io domain.' });
   }
 
   // Validate password length
@@ -110,7 +110,7 @@ const login = async (req, res) => {
     // Generate JWT
     const token = jwt.sign(
       { userId: user.id, sessionId, role: user.role },
-      process.env.JWT_SECRET || 'sprintpulse-super-secret-key-123!@#',
+      process.env.JWT_SECRET || 'axisflow-super-secret-key-123!@#',
       { expiresIn: '20m' }
     );
 

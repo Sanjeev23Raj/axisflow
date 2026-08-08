@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useProjects } from '../context/ProjectContext';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { Layers, Bell, CheckCircle2, AlertTriangle, Info, ShieldAlert } from 'lucide-react';
 
@@ -53,11 +54,11 @@ export default function Navbar() {
   const getRoleBadgeColor = (role) => {
     switch (role) {
       case 'MANAGER':
-        return 'bg-red-500/10 text-red-500 border border-red-500/20';
+        return 'bg-spidey-red text-white border-2 border-black shadow-[2px_2px_0px_#000]';
       case 'TEAM_LEADER':
-        return 'bg-amber-500/10 text-amber-500 border border-amber-500/20';
+        return 'bg-spidey-yellow text-black border-2 border-black shadow-[2px_2px_0px_#000]';
       default:
-        return 'bg-green-500/10 text-green-500 border border-green-500/20';
+        return 'bg-spidey-blue text-white border-2 border-black shadow-[2px_2px_0px_#000]';
     }
   };
 
@@ -66,25 +67,25 @@ export default function Navbar() {
 
   const getNotifIcon = (type) => {
     switch (type) {
-      case 'SUCCESS': return <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0" />;
-      case 'ALERT': return <ShieldAlert className="h-4 w-4 text-red-500 shrink-0" />;
-      case 'WARNING': return <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0" />;
-      default: return <Info className="h-4 w-4 text-blue-500 shrink-0" />;
+      case 'SUCCESS': return <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0" />;
+      case 'ALERT': return <ShieldAlert className="h-4 w-4 text-red-600 shrink-0" />;
+      case 'WARNING': return <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0" />;
+      default: return <Info className="h-4 w-4 text-blue-600 shrink-0" />;
     }
   };
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shrink-0 relative z-30">
+    <header className="h-16 bg-white border-b-4 border-black flex items-center justify-between px-8 shrink-0 relative z-30 shadow-[0_4px_0px_0px_rgba(0,0,0,1)]">
       {/* Project Selector Auto-selection Rule */}
       <div className="flex items-center gap-3">
-        <Layers className="h-5 w-5 text-slate-400" />
-        <span className="text-sm font-semibold text-slate-500 mr-1">Active Project:</span>
+        <Layers className="h-5 w-5 text-black" />
+        <span className="text-sm font-black text-black uppercase tracking-wider">Current Project:</span>
         {activeProjects.length > 1 ? (
           // Rule: If multiple ACTIVE projects exist -> Display dropdown
           <select
             value={activeProjectId}
             onChange={(e) => changeActiveProject(e.target.value)}
-            className="bg-slate-50 border border-slate-200 text-slate-800 text-sm font-semibold rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+            className="bg-white border-2 border-black text-black text-sm font-bold rounded-none px-3 py-1 shadow-[2px_2px_0px_rgba(0,0,0,1)] focus:outline-none focus:bg-spidey-yellow cursor-pointer"
           >
             {activeProjects.map((p) => (
               <option key={p.id} value={p.id}>
@@ -94,10 +95,19 @@ export default function Navbar() {
           </select>
         ) : activeProjects.length === 1 ? (
           // Rule: If only one ACTIVE project exists -> Auto-select it (display title)
-          <span className="text-sm font-bold text-slate-800">{activeProjects[0].title}</span>
+          <span className="text-sm font-black text-spidey-red uppercase bg-spidey-yellow px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">{activeProjects[0].title}</span>
         ) : (
           // Rule: If no ACTIVE project exists -> Show Empty State (handled inside dashboards)
-          <span className="text-sm font-medium text-slate-400">No Active Projects</span>
+          <span className="text-sm font-bold text-slate-400">No Active Projects</span>
+        )}
+
+        {user?.role === 'MANAGER' && (
+          <Link 
+            to="/sessions"
+            className="ml-4 px-3 py-1 border-2 border-black bg-spidey-yellow hover:bg-yellow-400 text-black text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 cursor-pointer transition-colors"
+          >
+            Session Auditing
+          </Link>
         )}
       </div>
 
@@ -108,11 +118,11 @@ export default function Navbar() {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 hover:text-slate-700 transition-colors relative cursor-pointer"
+              className="p-2 border-2 border-black bg-white hover:bg-spidey-yellow text-black transition-colors relative cursor-pointer shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5"
             >
               <Bell className="h-5 w-5" />
               {unreadCount > 0 && (
-                <span className="absolute top-1.5 right-1.5 h-4 w-4 bg-rose-500 text-[10px] text-white rounded-full flex items-center justify-center font-bold">
+                <span className="absolute -top-2 -right-2 h-5 w-5 bg-spidey-red border-2 border-black text-[10px] text-white rounded-full flex items-center justify-center font-black shadow-[1px_1px_0px_rgba(0,0,0,1)]">
                   {unreadCount}
                 </span>
               )}
@@ -120,39 +130,39 @@ export default function Navbar() {
 
             {/* Notifications Dropdown Panel */}
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden z-50">
-                <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Notifications</h4>
-                  <span className="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
-                    {unreadCount} unread
+              <div className="absolute right-0 mt-3 w-80 bg-white border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden z-50 rounded-none">
+                <div className="p-4 border-b-2 border-black flex justify-between items-center bg-spidey-yellow">
+                  <h4 className="text-xs font-black text-black uppercase tracking-wider">Comic Updates</h4>
+                  <span className="text-[10px] font-black text-white bg-spidey-red px-2 py-0.5 border border-black">
+                    {unreadCount} UNREAD
                   </span>
                 </div>
 
-                <div className="max-h-72 overflow-y-auto divide-y divide-slate-100">
+                <div className="max-h-72 overflow-y-auto divide-y-2 divide-black">
                   {notifications.length > 0 ? (
                     notifications.map((notif) => (
                       <div
                         key={notif.id}
                         onClick={() => handleMarkAsRead(notif.id)}
-                        className={`p-4 flex gap-3 text-left transition-colors cursor-pointer hover:bg-slate-50 ${
-                          !notif.isRead ? 'bg-blue-50/30' : ''
+                        className={`p-4 flex gap-3 text-left transition-colors cursor-pointer hover:bg-spidey-yellow/10 ${
+                          !notif.isRead ? 'bg-spidey-blue/5' : ''
                         }`}
                       >
                         {getNotifIcon(notif.type)}
                         <div className="min-w-0 flex-1">
-                          <p className={`text-xs text-slate-800 ${!notif.isRead ? 'font-bold' : 'font-medium'}`}>
+                          <p className={`text-xs text-black ${!notif.isRead ? 'font-black uppercase' : 'font-bold'}`}>
                             {notif.title}
                           </p>
-                          <p className="text-[10px] text-slate-500 mt-0.5 leading-relaxed">{notif.message}</p>
-                          <span className="text-[9px] text-slate-400 block mt-1.5">
+                          <p className="text-[10px] text-slate-700 mt-0.5 leading-relaxed font-bold">{notif.message}</p>
+                          <span className="text-[9px] text-slate-500 block mt-1.5 font-bold">
                             {new Date(notif.createdAt).toLocaleTimeString()}
                           </span>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="p-6 text-center text-xs text-slate-400 font-semibold">
-                      No notifications yet.
+                    <div className="p-6 text-center text-xs text-slate-500 font-bold uppercase">
+                      All quiet in the city!
                     </div>
                   )}
                 </div>
@@ -164,12 +174,12 @@ export default function Navbar() {
         {/* User Details */}
         {user && (
           <div className="flex items-center gap-2">
-            <span className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${getRoleBadgeColor(user.role)}`}>
+            <span className={`text-xs font-black px-3 py-1 uppercase tracking-wider rounded-none ${getRoleBadgeColor(user.role)}`}>
               {user.role}
             </span>
             <div className="hidden md:flex flex-col text-right">
-              <span className="text-sm font-bold text-slate-800">{user.name}</span>
-              <span className="text-xs text-slate-400">{user.email}</span>
+              <span className="text-sm font-black text-black">{user.name}</span>
+              <span className="text-xs text-slate-600 font-bold">{user.email}</span>
             </div>
           </div>
         )}

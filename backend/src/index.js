@@ -43,6 +43,6 @@ app.use((err, req, res, next) => {
 
 // Start Express server and initialize worker
 app.listen(PORT, () => {
-  logger.info(`SprintPulse API server running on port ${PORT}`);
+  logger.info(`AxisFlow API server running on port ${PORT}`);
   initWorker();
 });

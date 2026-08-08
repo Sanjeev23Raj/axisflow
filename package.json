@@ -1,7 +1,7 @@
 {
-  "name": "sprintpulse-root",
+  "name": "axisflow-root",
   "version": "1.0.0",
-  "description": "SprintPulse smart agile project management application root workspace",
+  "description": "AxisFlow smart agile project management application root workspace",
   "scripts": {
     "install:all": "npm install --prefix backend && npm install --prefix frontend --legacy-peer-deps",
     "start:backend": "npm start --prefix backend",

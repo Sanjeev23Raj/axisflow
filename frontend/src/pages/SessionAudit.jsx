@@ -26,7 +26,7 @@ export default function SessionAudit() {
   }, []);
 
   return (
-    <div className="flex-1 overflow-y-auto p-8 space-y-6">
+    <div className="flex-1 overflow-y-auto p-8 space-y-6 comic-bg">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">

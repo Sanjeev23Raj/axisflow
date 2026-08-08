@@ -4,11 +4,27 @@ const logger = require('../utils/logger');
 /**
  * Calculates metrics for a specific project.
  */
-async function calculateProjectMetrics(projectId) {
-  const stories = await prisma.userStory.findMany({
+async function calculateProjectMetrics(projectId, user = null) {
+  let stories = await prisma.userStory.findMany({
     where: { projectId },
     include: { tasks: true }
   });
+
+  // Filter based on user role to avoid team interference
+  if (user && user.role === 'TEAM_LEADER') {
+    stories = stories.filter(s => s.assignedLeader === user.name || s.assignedLeader === user.email);
+  } else if (user && user.role === 'TEAM_MEMBER') {
+    const bobTeam = ['Charlie Member', 'Diana Member', 'Fiona Member', 'George Member', 'bob.leader@axisflow.io', 'Bob Leader'];
+    const ethanTeam = ['Hannah Member', 'Ian Member', 'Julia Member', 'Kevin Member', 'ethan.leader@axisflow.io', 'Ethan Leader'];
+    const userIdentifier = user.name || user.email;
+    const isBobTeam = bobTeam.some(name => userIdentifier.toLowerCase().includes(name.toLowerCase().replace(' ', '.')) || userIdentifier.includes(name));
+    const isEthanTeam = ethanTeam.some(name => userIdentifier.toLowerCase().includes(name.toLowerCase().replace(' ', '.')) || userIdentifier.includes(name));
+    if (isBobTeam) {
+      stories = stories.filter(s => s.assignedLeader === 'Bob Leader' || s.assignedLeader === 'bob.leader@axisflow.io');
+    } else if (isEthanTeam) {
+      stories = stories.filter(s => s.assignedLeader === 'Ethan Leader' || s.assignedLeader === 'ethan.leader@axisflow.io');
+    }
+  }
 
   const allTasks = stories.reduce((acc, story) => acc.concat(story.tasks), []);
 

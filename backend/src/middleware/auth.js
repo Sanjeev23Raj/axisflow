@@ -10,7 +10,7 @@ const authenticate = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'sprintpulse-super-secret-key-123!@#');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'axisflow-super-secret-key-123!@#');
     
     // Check session in SQLite database
     const session = await prisma.userSession.findUnique({

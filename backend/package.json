@@ -1,7 +1,7 @@
 {
-  "name": "sprintpulse-backend",
+  "name": "axisflow-backend",
   "version": "1.0.0",
-  "description": "SprintPulse smart agile project management backend",
+  "description": "AxisFlow smart agile project management backend",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",

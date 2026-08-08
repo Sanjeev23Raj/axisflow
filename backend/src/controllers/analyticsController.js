@@ -41,7 +41,7 @@ const getDashboardMetrics = async (req, res) => {
       where: { id: activeProjectId }
     });
 
-    const metrics = await calculateProjectMetrics(activeProjectId);
+    const metrics = await calculateProjectMetrics(activeProjectId, req.user);
 
     const totalProjects = await prisma.project.count();
     const totalStories = await prisma.userStory.count({ where: { projectId: activeProjectId } });

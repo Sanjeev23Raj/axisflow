@@ -45,30 +45,31 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 px-4">
-      <div className="max-w-md w-full space-y-6 bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700">
+    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 relative overflow-hidden spidey-web-panel">
+      {/* Spider-Man style floating card */}
+      <div className="max-w-md w-full space-y-6 bg-white p-8 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] transform rotate-1 hover:rotate-0 transition-transform duration-200">
         <div className="flex flex-col items-center justify-center">
-          <div className="p-3 bg-blue-600/10 text-blue-500 rounded-2xl border border-blue-500/20 mb-3 animate-pulse">
+          <div className="p-3 bg-spidey-red text-white border-4 border-black shadow-[3px_3px_0px_#000] mb-3 animate-bounce">
             <Activity className="h-9 w-9" />
           </div>
-          <h2 className="text-2xl font-extrabold text-white tracking-tight">Create Account</h2>
-          <p className="mt-1 text-sm text-slate-400">Join the SprintPulse Platform</p>
+          <h2 className="text-4xl font-black text-white tracking-wider spidey-title">Sign Up</h2>
+          <p className="mt-1 text-xs font-black text-black uppercase tracking-widest bg-spidey-yellow px-2 py-0.5 border-2 border-black">Join the Spider-Force</p>
         </div>
 
         {errorMsg && (
-          <div className="p-4 bg-red-500/10 text-red-400 rounded-xl border border-red-500/20 text-sm">
-            {errorMsg}
+          <div className="p-4 bg-red-100 text-black border-3 border-black shadow-[3px_3px_0px_#000] text-sm font-bold">
+            <span className="text-spidey-red uppercase font-black mr-1">Alert:</span> {errorMsg}
           </div>
         )}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+            <label className="text-xs font-black text-black uppercase tracking-wider block mb-1">
               Full Name
             </label>
             <input
               type="text" required
-              className="appearance-none rounded-xl block w-full px-4 py-2.5 border border-slate-700 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="appearance-none relative block w-full px-4 py-2 border-3 border-black bg-white text-black placeholder-slate-400 focus:outline-none focus:bg-spidey-yellow/10 text-sm font-bold shadow-[2px_2px_0px_#000] focus:shadow-[3px_3px_0px_#ffd166]"
               placeholder="e.g. John Doe"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -76,13 +77,13 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+            <label className="text-xs font-black text-black uppercase tracking-wider block mb-1">
               Email Address
             </label>
             <input
               type="email" required
-              className="appearance-none rounded-xl block w-full px-4 py-2.5 border border-slate-700 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-              placeholder="e.g. john@sprintpulse.com"
+              className="appearance-none relative block w-full px-4 py-2 border-3 border-black bg-white text-black placeholder-slate-400 focus:outline-none focus:bg-spidey-yellow/10 text-sm font-bold shadow-[2px_2px_0px_#000] focus:shadow-[3px_3px_0px_#ffd166]"
+              placeholder="e.g. john@axisflow.io"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -90,24 +91,24 @@ export default function Register() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+              <label className="text-xs font-black text-black uppercase tracking-wider block mb-1">
                 Password
               </label>
               <input
                 type="password" required
-                className="appearance-none rounded-xl block w-full px-4 py-2.5 border border-slate-700 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                className="appearance-none relative block w-full px-4 py-2 border-3 border-black bg-white text-black placeholder-slate-400 focus:outline-none focus:bg-spidey-yellow/10 text-sm font-bold shadow-[2px_2px_0px_#000] focus:shadow-[3px_3px_0px_#ffd166]"
                 placeholder="••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+              <label className="text-xs font-black text-black uppercase tracking-wider block mb-1">
                 Confirm
               </label>
               <input
                 type="password" required
-                className="appearance-none rounded-xl block w-full px-4 py-2.5 border border-slate-700 bg-slate-950 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                className="appearance-none relative block w-full px-4 py-2 border-3 border-black bg-white text-black placeholder-slate-400 focus:outline-none focus:bg-spidey-yellow/10 text-sm font-bold shadow-[2px_2px_0px_#000] focus:shadow-[3px_3px_0px_#ffd166]"
                 placeholder="••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -116,11 +117,11 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+            <label className="text-xs font-black text-black uppercase tracking-wider block mb-1">
               Organization Role
             </label>
             <select
-              className="rounded-xl block w-full px-4 py-2.5 border border-slate-700 bg-slate-950 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm cursor-pointer"
+              className="relative block w-full px-4 py-2 border-3 border-black bg-white text-black focus:outline-none focus:bg-spidey-yellow/10 text-sm font-bold shadow-[2px_2px_0px_#000] focus:shadow-[3px_3px_0px_#ffd166] cursor-pointer"
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
@@ -133,16 +134,16 @@ export default function Register() {
           <div className="pt-2">
             <button
               type="submit" disabled={loading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-blue-500 disabled:opacity-50 transition-colors cursor-pointer"
+              className="w-full flex justify-center py-2.5 px-4 border-3 border-black text-sm font-black uppercase tracking-widest text-white bg-spidey-red hover:bg-red-600 shadow-[4px_4px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 transition-all cursor-pointer"
             >
-              {loading ? 'Registering...' : 'Create Account'}
+              {loading ? 'SWINGING...' : 'CREATE ACCOUNT'}
             </button>
           </div>
         </form>
 
         <div className="text-center pt-2">
-          <Link to="/login" className="text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors">
-            Already have an account? Sign in here
+          <Link to="/login" className="text-xs font-black text-spidey-blue hover:text-blue-700 uppercase tracking-wide underline">
+            Already have an account? Sign in here!
           </Link>
         </div>
       </div>

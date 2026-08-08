@@ -23,7 +23,7 @@ async function main() {
   // 1. Manager
   const manager = await prisma.user.create({
     data: {
-      email: 'manager@sprintpulse.com',
+      email: 'manager@axisflow.io',
       name: 'Alice Manager',
       password: hashedPassword,
       role: 'MANAGER',
@@ -33,7 +33,7 @@ async function main() {
   // 2. Team Leaders
   const leader1 = await prisma.user.create({
     data: {
-      email: 'bob.leader@sprintpulse.com',
+      email: 'bob.leader@axisflow.io',
       name: 'Bob Leader',
       password: hashedPassword,
       role: 'TEAM_LEADER',
@@ -42,7 +42,7 @@ async function main() {
 
   const leader2 = await prisma.user.create({
     data: {
-      email: 'ethan.leader@sprintpulse.com',
+      email: 'ethan.leader@axisflow.io',
       name: 'Ethan Leader',
       password: hashedPassword,
       role: 'TEAM_LEADER',
@@ -54,7 +54,7 @@ async function main() {
   const namesBob = ['Charlie Member', 'Diana Member', 'Fiona Member', 'George Member'];
   for (let i = 0; i < namesBob.length; i++) {
     const name = namesBob[i];
-    const email = name.toLowerCase().replace(' ', '.') + '@sprintpulse.com';
+    const email = name.toLowerCase().replace(' ', '.') + '@axisflow.io';
     const u = await prisma.user.create({
       data: { name, email, password: hashedPassword, role: 'TEAM_MEMBER' }
     });
@@ -65,7 +65,7 @@ async function main() {
   const namesEthan = ['Hannah Member', 'Ian Member', 'Julia Member', 'Kevin Member'];
   for (let i = 0; i < namesEthan.length; i++) {
     const name = namesEthan[i];
-    const email = name.toLowerCase().replace(' ', '.') + '@sprintpulse.com';
+    const email = name.toLowerCase().replace(' ', '.') + '@axisflow.io';
     const u = await prisma.user.create({
       data: { name, email, password: hashedPassword, role: 'TEAM_MEMBER' }
     });

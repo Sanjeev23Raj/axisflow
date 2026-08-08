@@ -44,7 +44,7 @@ const triggerReportGeneration = async (req, res) => {
       return res.status(404).json({ message: 'Project not found.' });
     }
 
-    const metrics = await calculateProjectMetrics(projectId);
+    const metrics = await calculateProjectMetrics(projectId, req.user);
 
     const report = await prisma.sprintReport.create({
       data: {

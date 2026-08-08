@@ -140,7 +140,7 @@ export default function Dashboard() {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(22);
     doc.setTextColor(30, 41, 59); // slate-800
-    doc.text("SprintPulse - Sprint Report", 14, y);
+    doc.text("AxisFlow - Axis Report", 14, y);
     y += 10;
 
     doc.setFontSize(10);
@@ -159,12 +159,12 @@ export default function Dashboard() {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(14);
     doc.setTextColor(30, 41, 59);
-    doc.text("Sprint Summary & KPIs", 14, y);
+    doc.text("Axis Summary & KPIs", 14, y);
     y += 8;
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
-    doc.text(`Sprint Health Score: ${reportData.healthScore} / 100 (${reportData.riskLevel})`, 14, y);
+    doc.text(`Axis Health Score: ${reportData.healthScore} / 100 (${reportData.riskLevel})`, 14, y);
     y += 6;
 
     const stats = summary.stats || {};
@@ -178,7 +178,7 @@ export default function Dashboard() {
     // Recommendations section
     doc.setFont("helvetica", "bold");
     doc.setFontSize(13);
-    doc.text("Sprint Risks & Recommendations", 14, y);
+    doc.text("Axis Risks & Recommendations", 14, y);
     y += 8;
 
     doc.setFont("helvetica", "normal");
@@ -193,7 +193,7 @@ export default function Dashboard() {
         });
       });
     } else {
-      doc.text("No high risks detected. Sprint remains stable.", 14, y);
+      doc.text("No high risks detected. Axis remains stable.", 14, y);
       y += 6;
     }
     y += 8;
@@ -217,7 +217,7 @@ export default function Dashboard() {
       y += 6;
     }
 
-    doc.save(`sprintpulse-report-${reportData.id.slice(0, 8)}.pdf`);
+    doc.save(`axisflow-report-${reportData.id.slice(0, 8)}.pdf`);
   };
 
   if (activeProjects.length === 0) {
@@ -239,7 +239,7 @@ export default function Dashboard() {
       <div className="flex-1 flex items-center justify-center p-8 bg-slate-50">
         <div className="flex flex-col items-center gap-3">
           <RefreshCw className="h-8 w-8 text-blue-500 animate-spin" />
-          <p className="text-slate-400 text-sm font-semibold">Loading Sprint Details...</p>
+          <p className="text-slate-400 text-sm font-semibold">Loading Axis Details...</p>
         </div>
       </div>
     );
@@ -267,41 +267,25 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-8 space-y-6 bg-slate-50/50">
+    <div className="flex-1 overflow-y-auto p-8 space-y-6 comic-bg">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-4 border-black pb-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Sprint Analytics Dashboard</h1>
-          <p className="text-slate-500 text-sm">Sprint metrics & predictive warnings for {activeProject?.title}</p>
+          <h1 className="text-3xl font-black text-slate-800 tracking-wider">Axis Analytics Dashboard</h1>
+          <p className="text-slate-500 text-xs font-bold uppercase tracking-widest bg-spidey-yellow/20 px-2 py-0.5 border border-black inline-block mt-1">Axis metrics & predictive warnings for {activeProject?.title}</p>
         </div>
         
         <div className="flex items-center gap-2">
           {isLeader && (
-            <>
-              <button 
-                onClick={() => setShowReportsModal(true)}
-                className="flex items-center gap-2 px-4 py-2 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold transition-colors cursor-pointer"
-              >
-                <Eye className="h-4 w-4" />
-                <span>View Reports</span>
-              </button>
-              <button 
-                onClick={handleTriggerReport}
-                disabled={reportTriggering}
-                className="flex items-center gap-2 px-4 py-2 border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 disabled:opacity-50 rounded-xl text-sm font-semibold transition-colors cursor-pointer"
-              >
-                <Sparkles className="h-4 w-4" />
-                <span>{reportTriggering ? 'Generating...' : 'Generate Report'}</span>
-              </button>
-            </>
+            <button 
+              onClick={handleTriggerReport}
+              disabled={reportTriggering}
+              className="flex items-center gap-2 px-5 py-2.5 border-3 border-black bg-spidey-red text-white hover:bg-red-600 disabled:opacity-50 text-xs font-black uppercase tracking-widest shadow-[3px_3px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 transition-all cursor-pointer"
+            >
+              <Sparkles className="h-4 w-4" />
+              <span>{reportTriggering ? 'Generating...' : 'Generate Report'}</span>
+            </button>
           )}
-          <button 
-            onClick={fetchDashboardData}
-            className="flex items-center gap-2 px-4 py-2 border border-slate-200 bg-white hover:bg-slate-50 rounded-xl text-slate-700 text-sm font-semibold transition-colors cursor-pointer"
-          >
-            <RefreshCw className="h-4 w-4" />
-            <span>Sync</span>
-          </button>
         </div>
       </div>
 
@@ -327,7 +311,7 @@ export default function Dashboard() {
 
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-slate-400">Sprint Health Score</p>
+                <p className="text-sm font-semibold text-slate-400">Axis Health Score</p>
                 <div className="flex items-baseline gap-2 mt-1">
                   <h3 className="text-3xl font-bold text-slate-800">{metrics.healthScore}</h3>
                   <span className="text-sm text-slate-400">/ 100</span>
@@ -340,7 +324,7 @@ export default function Dashboard() {
 
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-slate-400">Sprint Risk Level</p>
+                <p className="text-sm font-semibold text-slate-400">Axis Risk Level</p>
                 <h3 className="text-2xl font-bold text-slate-800 mt-1">{metrics.riskLevel}</h3>
               </div>
               <div className={`p-3 rounded-xl ${metrics.riskLevel === 'HEALTHY' ? 'bg-green-50 text-green-500' : 'bg-red-50 text-red-500'}`}>
@@ -356,7 +340,7 @@ export default function Dashboard() {
               <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs flex flex-col justify-between">
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 mb-2">My Progress</h3>
-                  <p className="text-xs text-slate-400">Completed tasks ratio in active sprint</p>
+                  <p className="text-xs text-slate-400">Completed tasks ratio in active axis</p>
                 </div>
                 
                 <div className="my-6 flex flex-col items-center justify-center relative">
@@ -374,7 +358,7 @@ export default function Dashboard() {
 
                 <div className="border-t border-slate-100 pt-3 text-[10px] text-slate-400 font-semibold uppercase tracking-wider flex justify-between">
                   <span>Assigned to: {user.name}</span>
-                  <span className="text-blue-500">Active Sprint</span>
+                  <span className="text-blue-500">Active Axis</span>
                 </div>
               </div>
 
@@ -383,9 +367,9 @@ export default function Dashboard() {
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
                     <Clock className="h-5 w-5 text-blue-500 animate-pulse" />
-                    <span>My Tracking Pad (Work in Progress)</span>
+                    <span>My Axis Tracking Pad (Work in Progress)</span>
                   </h3>
-                  <p className="text-xs text-slate-400 mb-4">Quickly update status of your active sprint tasks below</p>
+                  <p className="text-xs text-slate-400 mb-4">Quickly update status of your active axis tasks below</p>
                   
                   <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
                     {myActiveTasks.length > 0 ? (
@@ -424,7 +408,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="text-[10px] text-slate-400 mt-4 border-t border-slate-100 pt-3 flex justify-between">
-                  <span>Task details change instantly affects sprint health score</span>
+                  <span>Task details change instantly affects axis health score</span>
                   <span className="font-bold text-slate-500">Live tracker</span>
                 </div>
               </div>
@@ -438,7 +422,7 @@ export default function Dashboard() {
               <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold text-slate-800">Sprint Risk Predictor</h3>
+                    <h3 className="text-lg font-bold text-slate-800">Axis Risk Predictor</h3>
                     <span className="text-xs text-slate-400">Auto-detected risks</span>
                   </div>
                   <div className="space-y-3">
@@ -522,64 +506,6 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* Active Tasks View */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs">
-            <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
-              <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                <ListFilter className="h-5 w-5 text-slate-400" />
-                <span>Sprint Tasks List</span>
-              </h3>
-              
-              <label className="flex items-center gap-2 text-xs font-semibold text-slate-600 cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 h-4 w-4"
-                  checked={showCompleted}
-                  onChange={(e) => setShowCompleted(e.target.checked)}
-                />
-                <span>Show Completed Tasks</span>
-              </label>
-            </div>
-
-            <div className="divide-y divide-slate-100 max-h-96 overflow-y-auto">
-              {filteredTasks.length > 0 ? (
-                filteredTasks.map((t) => (
-                  <div key={t.id} className="py-3 flex items-center justify-between gap-4">
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-slate-800 truncate">{t.title}</p>
-                      <p className="text-xs text-slate-400 mt-0.5 truncate">Story: {t.storyTitle}</p>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                        t.priority === 'URGENT' ? 'bg-red-50 text-red-600 border border-red-100' :
-                        t.priority === 'HIGH' ? 'bg-orange-50 text-orange-600 border border-orange-100' :
-                        'bg-blue-50 text-blue-600 border border-blue-100'
-                      }`}>
-                        {t.priority}
-                      </span>
-                      <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
-                        t.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
-                        t.status === 'BLOCKED' ? 'bg-red-100 text-red-800' :
-                        t.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-800' :
-                        'bg-slate-100 text-slate-600'
-                      }`}>
-                        {t.status}
-                      </span>
-                      {t.assignedTo && (
-                        <span className="text-[10px] text-slate-500 font-medium bg-slate-100 px-2 py-0.5 rounded-md">
-                          {t.assignedTo}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-slate-400 text-center py-6 text-sm font-medium">
-                  No active tasks found in this project.
-                </p>
-              )}
-            </div>
-          </div>
         </>
       )}
 
@@ -590,7 +516,7 @@ export default function Dashboard() {
             <div className="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
               <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
                 <FileText className="h-5 w-5 text-blue-500" />
-                <span>Historical Sprint Reports</span>
+                <span>Historical Axis Reports</span>
               </h3>
               <button 
                 onClick={() => setShowReportsModal(false)}
@@ -663,49 +589,49 @@ export default function Dashboard() {
       {/* Selected Report Details Modal */}
       {selectedReport && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl w-full max-w-2xl p-6 shadow-2xl border border-slate-100 flex flex-col max-h-[85vh] overflow-y-auto">
-            <div className="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
-              <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                <FileText className="h-5 w-5 text-blue-500" />
-                <span>Sprint Report Details</span>
+          <div className="bg-white border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] w-full max-w-2xl p-6 flex flex-col max-h-[85vh] overflow-y-auto rounded-none">
+            <div className="flex justify-between items-center border-b-4 border-black pb-3 mb-4">
+              <h3 className="text-xl font-black text-black flex items-center gap-2">
+                <FileText className="h-5 w-5 text-spidey-blue" />
+                <span>Axis Report Details</span>
               </h3>
               <button 
                 onClick={() => setSelectedReport(null)}
-                className="text-slate-400 hover:text-slate-600 cursor-pointer"
+                className="p-1 border-2 border-black bg-spidey-yellow text-black hover:bg-yellow-400 cursor-pointer shadow-[1px_1px_0px_#000] active:translate-x-0.5 active:translate-y-0.5"
               >
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5" />
               </button>
             </div>
 
             <div className="space-y-4 text-left">
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-150">
-                <p className="text-sm font-bold text-slate-800">Project Name: {activeProject?.title}</p>
-                <p className="text-xs text-slate-500 mt-1">Generated: {new Date(selectedReport.generatedAt).toLocaleString()}</p>
-                <p className="text-xs text-slate-500 mt-0.5">Report ID: <span className="font-mono text-slate-400">{selectedReport.id}</span></p>
+              <div className="p-4 bg-spidey-yellow/10 border-3 border-black shadow-[4px_4px_0px_#000] rounded-none">
+                <p className="text-sm font-black text-black">Project Name: {activeProject?.title}</p>
+                <p className="text-xs text-slate-700 font-bold mt-1">Generated: {new Date(selectedReport.generatedAt).toLocaleString()}</p>
+                <p className="text-xs text-slate-700 font-bold mt-0.5">Report ID: <span className="font-mono text-slate-600 font-normal">{selectedReport.id}</span></p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-blue-50/30 border border-blue-100 rounded-2xl">
-                  <span className="text-xs font-semibold text-slate-500">Sprint Health Score</span>
+                <div className="p-4 bg-white border-3 border-black shadow-[4px_4px_0px_#000] rounded-none">
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-wider">Axis Health Score</span>
                   <div className="flex items-baseline gap-1 mt-1">
-                    <span className="text-2xl font-black text-blue-900">{selectedReport.healthScore}</span>
-                    <span className="text-xs text-slate-400">/ 100</span>
+                    <span className="text-3xl font-black text-spidey-blue">{selectedReport.healthScore}</span>
+                    <span className="text-xs text-slate-500 font-bold">/ 100</span>
                   </div>
                 </div>
 
-                <div className="p-4 bg-indigo-50/30 border border-indigo-100 rounded-2xl">
-                  <span className="text-xs font-semibold text-slate-500">Risk Assessment</span>
-                  <div className="text-sm font-bold text-indigo-900 mt-2 uppercase">{selectedReport.riskLevel}</div>
+                <div className="p-4 bg-white border-3 border-black shadow-[4px_4px_0px_#000] rounded-none">
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-wider">Risk Assessment</span>
+                  <div className="text-lg font-black text-spidey-red mt-2 uppercase">{selectedReport.riskLevel}</div>
                 </div>
               </div>
 
               {/* Summary KPIs */}
               <div>
-                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Sprint KPIs</h4>
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Axis KPIs</h4>
+                <div className="p-4 bg-white border-3 border-black shadow-[4px_4px_0px_#000] grid grid-cols-2 sm:grid-cols-4 gap-4 text-center rounded-none">
                   <div>
-                    <p className="text-[10px] font-semibold text-slate-400 uppercase">Stories</p>
-                    <p className="text-lg font-bold text-slate-800">
+                    <p className="text-[10px] font-black text-slate-500 uppercase">Stories</p>
+                    <p className="text-lg font-black text-black mt-1">
                       {(() => {
                         try {
                           const s = JSON.parse(selectedReport.summary);
@@ -715,8 +641,8 @@ export default function Dashboard() {
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold text-slate-400 uppercase">Completed Stories</p>
-                    <p className="text-lg font-bold text-green-600">
+                    <p className="text-[10px] font-black text-slate-500 uppercase">Completed Stories</p>
+                    <p className="text-lg font-black text-green-600 mt-1">
                       {(() => {
                         try {
                           const s = JSON.parse(selectedReport.summary);
@@ -726,8 +652,8 @@ export default function Dashboard() {
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold text-slate-400 uppercase">Tasks</p>
-                    <p className="text-lg font-bold text-slate-800">
+                    <p className="text-[10px] font-black text-slate-500 uppercase">Tasks</p>
+                    <p className="text-lg font-black text-black mt-1">
                       {(() => {
                         try {
                           const s = JSON.parse(selectedReport.summary);
@@ -737,8 +663,8 @@ export default function Dashboard() {
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold text-slate-400 uppercase">Completed Tasks</p>
-                    <p className="text-lg font-bold text-green-600">
+                    <p className="text-[10px] font-black text-slate-500 uppercase">Completed Tasks</p>
+                    <p className="text-lg font-black text-green-600 mt-1">
                       {(() => {
                         try {
                           const s = JSON.parse(selectedReport.summary);
@@ -752,7 +678,7 @@ export default function Dashboard() {
 
               {/* Recommendations and Workload */}
               <div className="space-y-2">
-                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Risks & Insights</h4>
+                <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider">Risks & Insights</h4>
                 <div className="space-y-2">
                   {(() => {
                     try {
@@ -760,14 +686,14 @@ export default function Dashboard() {
                       const recs = s.recommendations || [];
                       return recs.length > 0 ? (
                         recs.map((r, i) => (
-                          <div key={i} className="flex gap-2 p-3 bg-rose-50 border border-rose-100 text-rose-800 rounded-xl text-xs">
-                            <AlertTriangle className="h-4.5 w-4.5 text-rose-600 shrink-0" />
+                          <div key={i} className="flex gap-2 p-3 bg-red-50 border-2 border-black text-black font-bold rounded-none shadow-[2px_2px_0px_rgba(0,0,0,1)] text-xs">
+                            <AlertTriangle className="h-4.5 w-4.5 text-spidey-red shrink-0" />
                             <span>{r}</span>
                           </div>
                         ))
                       ) : (
-                        <div className="p-3 bg-green-50 border border-green-100 text-green-800 rounded-xl text-xs">
-                          No high-priority risks observed for this sprint.
+                        <div className="p-3 bg-green-50 border-2 border-black text-black font-bold rounded-none shadow-[2px_2px_0px_rgba(0,0,0,1)] text-xs">
+                          No high-priority risks observed for this axis.
                         </div>
                       );
                     } catch(e) {
@@ -778,16 +704,16 @@ export default function Dashboard() {
               </div>
 
               {/* Download PDF CTA */}
-              <div className="pt-4 border-t border-slate-100 flex justify-end gap-3">
+              <div className="pt-4 border-t-4 border-black flex justify-end gap-3">
                 <button
                   onClick={() => setSelectedReport(null)}
-                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold cursor-pointer"
+                  className="px-4 py-2 border-3 border-black bg-white hover:bg-slate-50 text-black text-xs font-black uppercase rounded-none shadow-[3px_3px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 cursor-pointer"
                 >
                   Close
                 </button>
                 <button
                   onClick={() => downloadReportPDF(selectedReport)}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold cursor-pointer"
+                  className="flex items-center gap-1.5 px-4 py-2 bg-spidey-red hover:bg-red-600 text-white text-xs font-black uppercase rounded-none border-3 border-black shadow-[3px_3px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 cursor-pointer"
                 >
                   <Download className="h-4 w-4" />
                   <span>Download PDF Report</span>
