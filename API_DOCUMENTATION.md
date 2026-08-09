@@ -42,8 +42,8 @@ All request paths are prefixed with `/api`. Response content is returned in `app
 **Request Payload**:
 ```json
 {
-  "email": "manager@sprintpulse.com",
-  "password": "password123"
+  "email": "manager@axisflow.io",
+  "password": "###"
 }
 ```
 
@@ -52,8 +52,8 @@ All request paths are prefixed with `/api`. Response content is returned in `app
 {
   "user": {
     "id": "ae5b3df6-48c9-4fd2-8b43-bdf5349e5cf1",
-    "email": "manager@sprintpulse.com",
-    "name": "Alice Manager",
+    "email": "manager@axisflow.io",
+    "name": "Sam",
     "role": "MANAGER"
   },
   "sessionId": "sess_89df2314-e567-4fd2-89cd-456efb910123"
